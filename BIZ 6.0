@@ -1,0 +1,1030 @@
+-- Ver6 BIZ
+
+getgenv().SecureMode = true
+local ArrayField = loadstring(game:HttpGet('https://raw.githubusercontent.com/UI-Interface/ArrayField/main/Source.lua'))()
+
+
+local Window = ArrayField:CreateWindow({
+    Name = "Break in Z 6.0",
+    LoadingTitle = "Break in Z",
+    LoadingSubtitle = "By ZWare Communuity",
+    ConfigurationSaving = {
+       Enabled = true,
+       FolderName = nil, -- Create a custom folder for your hub/game
+       FileName = "BIZA1"
+    },
+    Discord = {
+       Enabled = true,
+       Invite = "fG9sKvtJ", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ABCD would be ABCD
+       RememberJoins = true -- Set this to false to make them join the discord every time they load it up
+    },
+    KeySystem = false, -- Set this to true to use our key system
+    KeySettings = {
+       Title = "Key",
+       Subtitle = "Key System",
+       Note = "No key for you. Private only",
+       FileName = "BIZKey1", -- It is recommended to use something unique as other scripts using ArrayField may overwrite your key file
+       SaveKey = false, -- The user's key will be saved, but if you change the key, they will be unable to use your script
+       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like ArrayField to get the key from
+       Actions = {
+             [1] = {
+                 Text = 'Click here for nothing <--',
+                 OnPress = function()
+                     print("Ver6")
+                 end,
+                 }
+             },
+       Key = {"Access", "Array", "Version 6.0", "Ver6"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+    }
+ })
+
+
+
+ Window:Prompt({
+    Title = 'Welcome!',
+    SubTitle = 'The hubs features may not work',
+    Content = '',
+    Actions = {
+        Accept = {
+            Name = 'Accept',
+            Callback = function()
+                print('Accepted')
+            end,
+        }
+    }
+})
+
+
+local Tab = Window:CreateTab("Home", 4483362458) -- Title, Image
+
+local Section = Tab:CreateSection("Home",true)
+local Section = Tab:CreateSection("Sliders",true) -- The 2nd argument is to tell if its only a Title and doesnt contain element
+
+
+local Slider = Tab:CreateSlider({
+    Name = "Speed",
+    Range = {0, 100},
+    Increment = 10,
+    Suffix = "WS",
+    CurrentValue = 10,
+    Flag = "S", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Slider)
+     game.Players.LocalPlayer.Character.Humanoid.WalkSpeed = Slider
+    -- The variable (Value) is a number which correlates to the value the slider is currently at
+    end,
+ })
+ 
+ 
+ local Slider = Tab:CreateSlider({
+    Name = "JumpPower",
+    Range = {0, 100},
+    Increment = 10,
+    Suffix = "JP",
+    CurrentValue = 10,
+    Flag = "JP", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Slider)
+     game.Players.LocalPlayer.Character.Humanoid.JumpPower = Slider
+    -- The variable (Value) is a number which correlates to the value the slider is currently at
+    end,
+ })
+ 
+ 
+ local Slider = Tab:CreateSlider({
+    Name = "MaxHealth",
+    Range = {0, 500},
+    Increment = 10,
+    Suffix = "MH",
+    CurrentValue = 10,
+    Flag = "MH", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Slider)
+     game.Players.LocalPlayer.Character.Humanoid.MaxHealth = Slider
+    -- The variable (Value) is a number which correlates to the value the slider is currently at
+    end,
+ })
+ 
+ 
+ local Slider = Tab:CreateSlider({
+    Name = "Health",
+    Range = {0, 500},
+    Increment = 10,
+    Suffix = "H",
+    CurrentValue = 10,
+    Flag = "HLTH", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+    Callback = function(Slider)
+     game.Players.LocalPlayer.Character.Humanoid.Health = Slider
+    -- The variable (Value) is a number which correlates to the value the slider is currently at
+    end,
+ })
+
+
+
+ -- key check
+ if KeyFeatures == 'ZY&x#!2Q6t80n3oMOdLTvqssCo' then
+    local Section = Tab:CreateSection("Private Features",true) -- The 2nd argument is to tell if its only a Title and doesnt contain element  
+
+
+local Button = Tab:CreateButton({
+   Name = "NameTag",
+   Interact = 'Click',
+   Callback = function()
+    local Players = game:GetService("Players")
+		local ReplicatedStorage = game:GetService("ReplicatedStorage")
+		local yes = Players.LocalPlayer.Name
+		local ChatTag = {}
+		ChatTag[yes] =
+			{
+				TagText = "PRIVATE++", --put your name in here
+				TagColor = Color3.new(111, 0, 255), --put your rgb color in here
+			}
+		
+		
+		
+			local oldchanneltab
+			local oldchannelfunc
+			local oldchanneltabs = {}
+		
+		
+		for i, v in pairs(getconnections(ReplicatedStorage.DefaultChatSystemChatEvents.OnNewMessage.OnClientEvent)) do
+			if
+				v.Function
+				and #debug.getupvalues(v.Function) > 0
+				and type(debug.getupvalues(v.Function)[1]) == "table"
+				and getmetatable(debug.getupvalues(v.Function)[1])
+				and getmetatable(debug.getupvalues(v.Function)[1]).GetChannel
+			then
+				oldchanneltab = getmetatable(debug.getupvalues(v.Function)[1])
+				oldchannelfunc = getmetatable(debug.getupvalues(v.Function)[1]).GetChannel
+				getmetatable(debug.getupvalues(v.Function)[1]).GetChannel = function(Self, Name)
+					local tab = oldchannelfunc(Self, Name)
+					if tab and tab.AddMessageToChannel then
+						local addmessage = tab.AddMessageToChannel
+						if oldchanneltabs[tab] == nil then
+							oldchanneltabs[tab] = tab.AddMessageToChannel
+						end
+						tab.AddMessageToChannel = function(Self2, MessageData)
+							if MessageData.FromSpeaker and Players[MessageData.FromSpeaker] then
+								if ChatTag[Players[MessageData.FromSpeaker].Name] then
+									MessageData.ExtraData = {
+										NameColor = Players[MessageData.FromSpeaker].Team == nil and Color3.new(128,0,128)
+											or Players[MessageData.FromSpeaker].TeamColor.Color,
+										Tags = {
+											table.unpack(MessageData.ExtraData.Tags),
+											{
+												TagColor = ChatTag[Players[MessageData.FromSpeaker].Name].TagColor,
+												TagText = ChatTag[Players[MessageData.FromSpeaker].Name].TagText,
+											},
+										},
+									}
+								end
+							end
+							return addmessage(Self2, MessageData)
+						end
+					end
+					return tab
+				end
+			end
+		end
+    end})
+   end
+
+   -- check private
+   if shared.Private == 'Active' then
+    print("WhiteListed!")
+    print("Private Active")
+    print("Contacting BIZ Whitelister")
+    task.wait(0.3)
+    print("Got Features")
+    task.wait(0.3)
+    print("Checking AutoNT")
+    print(".")
+    print("..")
+    task.wait(0.3)
+    -- Retrieve and print the value from the Getgenv().AutoNT variable
+
+-- Check if the getgenv().AutoNT variable exists
+if AutoNT then
+  -- Print the value of _G.AutoNT
+  print("AutoNT value:", AutoNT)
+else
+  print("AutoNT value: Deactivated")
+end
+
+end
+
+-- ver6
+
+local Section = Tab:CreateSection("6.0",true)
+
+local Button = Tab:CreateButton({
+   Name = "AntiKick",
+   Interact = 'Click',
+   Callback = function()
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Exunys/Anti-Kick/main/Anti%20Kick.lua"), true))()
+    task.wait(7.5)
+    loadstring(game:HttpGet(("https://raw.githubusercontent.com/Owner1213/BighubRayfield/main/Antikick?token=GHSAT0AAAAAACEJVFC3IDO7EY45QRVEFRQQZE7QFHA"), true))()
+   end,
+})
+local Section = Tab:CreateSection("Roles 6.0",true)
+
+local Button = Tab:CreateButton({
+   Name = "Swat",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "SwatGun",
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("OutsideRole"):FireServer(unpack(args))
+   end,
+
+})
+
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Police",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Gun",
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("OutsideRole"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Stealthy",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "TeddyBloxpin",
+    [2] = true,
+    [3] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("MakeRole"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Fighter",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Sword",
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("OutsideRole"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Hyper",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Lollipop",
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("OutsideRole"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Hungry",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Chips",
+    [2] = true,
+    [3] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("MakeRole"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Guest(Hardest Class)",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "LinkedSword",
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("OutsideRole"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Protector",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Bat",
+    [2] = false,
+    [3] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("MakeRole"):FireServer(unpack(args))
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Medic",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "MedKit",
+    [2] = false,
+    [3] = false
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("MakeRole"):FireServer(unpack(args))
+   end,
+})
+-- tab
+local Tab = Window:CreateTab("Main 6.0", 4483362458) -- Title, Image
+
+
+local Button = Tab:CreateButton({
+   Name = "Heal 15",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Cookie"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+task.wait(0.1)
+local args = {
+    [1] = 15,
+    [2] = "Cookie"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Energy"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Get Padlock",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = game:GetService("Players").LocalPlayer
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("PadlockDetector"):FireServer(unpack(args))
+   end,
+})
+
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Befriend Cat",
+   Interact = 'Click',
+   Callback = function()
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Cattery"):FireServer()
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Find Safe",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "rbxassetid://3195645674"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("PaintingClicked"):FireServer(unpack(args))
+task.wait(0.1)
+local args = {
+    [1] = "rbxassetid://3195645922"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("PaintingClicked"):FireServer(unpack(args))
+task.wait(0.1)
+local args = {
+    [1] = "http://www.roblox.com/asset/?id=363240671"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("PaintingClicked"):FireServer(unpack(args))
+task.wait(0.1)
+local args = {
+    [1] = "http://www.roblox.com/asset/?id=178210631"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("PaintingClicked"):FireServer(unpack(args))
+task.wait(0.1)
+local args = {
+    [1] = "http://www.roblox.com/asset/?id=3246691515"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("PaintingClicked"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Unlock Safe",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "9475"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Safe"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Unlock Attic",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = 1
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Ladder"):FireServer(unpack(args))
+task.wait(0.1)
+local args = {
+    [1] = "Attic"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Door"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Oof Enemys(DONT SPAM)",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = workspace:WaitForChild("BadGuys"):WaitForChild(" "),
+    [2] = 996
+}
+
+local startTime = tick() -- Get the current time
+
+while tick() - startTime < 2 do -- Repeat until 2 seconds have passed
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("HitBadguy"):FireServer(unpack(args))
+    wait() -- Adjust the delay between each repetition as needed (e.g., 0.1 seconds)
+end
+task.wait(0.1)
+local args = {
+    [1] = workspace:WaitForChild("BadGuys"):WaitForChild(" "),
+    [2] = 996
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("HitBadguy"):FireServer(unpack(args))
+
+   end,
+})
+
+
+local Toggle = Tab:CreateToggle({
+   Name = "AutoHeal",
+   CurrentValue = true,
+   Flag = "AH", -- A flag is the identifier for the configuration file, make sure every element has a different flag if you're using configuration saving to ensure no overlaps
+   Callback = function(callback)
+   getgenv().AutoHeal = true
+
+
+
+   if AutoHeal == true then
+local args = {
+    [1] = "Cookie"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+task.wait(0.1)
+local args = {
+    [1] = 15,
+    [2] = "Cookie"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Energy"):FireServer(unpack(args))
+wait(1)
+   end
+
+
+
+
+   end,
+})
+
+
+
+-- main 6.0 end
+local Tab = Window:CreateTab("Sounds 6.0", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "TeleVision Broadcast",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = workspace:WaitForChild("TheHouse"):WaitForChild("Tv2"):WaitForChild("Broadcast"),
+    [2] = true,
+    [3] = 999
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Sounds"):FireServer(unpack(args))
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Sirens",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = workspace:WaitForChild("TheHouse"):WaitForChild("Tv2"):WaitForChild("Sirens"),
+    [2] = true,
+    [3] = 999
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Sounds"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "TV Static",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = workspace:WaitForChild("TheHouse"):WaitForChild("TV"):WaitForChild("Sound"),
+    [2] = true
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("Sounds"):FireServer(unpack(args))
+   end,
+})
+
+
+-- sounds end
+
+local Tab = Window:CreateTab("Tools 6.0", 4483362458) -- Title, Image
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Smallest Pizza",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Pizza1"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Cure",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Cure"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Apple",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Apple"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "BaseBall Bat",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Bat"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Medkit",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "MedKit"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Chips",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Chips"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Medium Pizza?",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Pizza2"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Normal Pizza",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Pizza3"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Cookie",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Cookie"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Pie",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Pie"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "EpicPizza(Expired Pizza)",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+        [1] = "EpicPizza"
+    }
+    
+    game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Expired BloxyCola",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "ExpiredBloxyCola"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Key",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Key"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Teddy",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "TeddyBloxpin"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Sword",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "LinkedSword"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Hammer",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = true,
+    [2] = "Hammer"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("BasementWeapon"):FireServer(unpack(args))
+   end,
+})
+
+local Button = Tab:CreateButton({
+   Name = "Plank",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Plank"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Lollipop",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Lollipop"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "BloxyCola",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "BloxyCola"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Basement Key(Same as Key?)",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "Key"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Car Key",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = "CarKey"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("GiveTool"):FireServer(unpack(args))
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Spanner",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = true,
+    [2] = "Spanner"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("BasementWeapon"):FireServer(unpack(args))
+   end,
+})
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Breaker",
+   Interact = 'Click',
+   Callback = function()
+local args = {
+    [1] = true,
+    [2] = "Breaker"
+}
+
+game:GetService("ReplicatedStorage"):WaitForChild("RemoteEvents"):WaitForChild("BasementWeapon"):FireServer(unpack(args))
+   end,
+})
+
+local Tab = Window:CreateTab("Misc", 4483362458) -- Title, Image
+
+local Button = Tab:CreateButton({
+   Name = "Enable ToolDrop",
+   Interact = 'Click',
+   Callback = function()
+-- Function to enable tool drop for the local player
+local function enableToolDrop()
+    local player = game.Players.LocalPlayer
+    local character = player.Character or player.CharacterAdded:Wait()
+    local tool = character:FindFirstChildOfClass("Tool")
+    if tool then
+        tool.CanBeDropped = true
+    end
+end
+
+-- Enable tool drop for the local player
+enableToolDrop()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "RemovePlayerTools",
+   Interact = 'Click',
+   Callback = function()
+    local function removePlayerTools(player)
+    local character = player.Character or player.CharacterAdded:Wait()
+    local backpack = player.Backpack
+    if character then
+        for _, tool in ipairs(character:GetChildren()) do
+            if tool:IsA("Tool") then
+                tool:Destroy()
+            end
+        end
+    end
+    if backpack then
+        for _, tool in ipairs(backpack:GetChildren()) do
+            if tool:IsA("Tool") then
+                tool:Destroy()
+            end
+        end
+    end
+end
+
+game.Players.PlayerAdded:Connect(function(player)
+    player.CharacterAdded:Connect(function(character)
+        removePlayerTools(player)
+    end)
+end)
+
+for _, player in ipairs(game.Players:GetPlayers()) do
+    removePlayerTools(player)
+end
+   end,
+})
+
+
+
+
+local Button = Tab:CreateButton({
+   Name = "Infinite Yield",
+   Interact = 'By Blink',
+   Callback = function()
+loadstring(game:HttpGet('https://raw.githubusercontent.com/EdgeIY/infiniteyield/master/source'))()
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Noclip Made by me",
+   Interact = 'Click',
+   Callback = function()
+    local RunService = game:GetService("RunService")
+    local Players = game:GetService("Players")
+    local UserInputService = game:GetService("UserInputService")
+    
+    local player = Players.LocalPlayer
+    local character = player.Character
+    
+    local Noclipping = nil
+    local Clip = false
+    
+    wait(0.1)
+    
+    local function NoclipLoop()
+        if Clip == false and character ~= nil then
+            for _, child in pairs(character:GetDescendants()) do
+                if child:IsA("BasePart") and child.CanCollide == true and child.Name ~= floatName then
+                    child.CanCollide = false
+                end
+            end
+        end
+    end
+    
+    Noclipping = RunService.Stepped:Connect(NoclipLoop)
+    
+    UserInputService.JumpRequest:Connect(function()
+        if Clip == false and character ~= nil then
+            character:FindFirstChildOfClass("Humanoid"):ChangeState(Enum.HumanoidStateType.Jumping)
+        end
+    end)
+    
+    UserInputService.MoveTo:Connect(function(destination, isProcessed)
+        if Clip == false and character ~= nil and isProcessed == false then
+            character:MoveTo(destination)
+        end
+    end)
+    
+    UserInputService:RemoveDefaultSource("Touch")
+    UserInputService.TouchTap:Connect(function(position, processed)
+        if Clip == false and character ~= nil and processed == false then
+            character:MoveTo(position)
+        end
+    end)
+    
+   end,
+})
+
+
+local Button = Tab:CreateButton({
+   Name = "Clip(NOTWORKING)",
+   Interact = 'Click',
+   Callback = function()
+    local Noclipping = nil
+    local Clip = true -- Set this to true to disable noclip
+    
+    local function NoclipLoop()
+        if Clip and speaker.Character then
+            for _, child in pairs(speaker.Character:GetDescendants()) do
+                if child:IsA("BasePart") and child.CanCollide == false then
+                    child.CanCollide = true
+                end
+            end
+        end
+    end
+    
+    Noclipping = game:GetService("RunService").Stepped:Connect(NoclipLoop)
+    
+    -- To turn off the noclip, simply disconnect the Noclipping event:
+    Noclipping:Disconnect()
+    
+   end,
+})
